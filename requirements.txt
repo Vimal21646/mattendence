@@ -1,0 +1,11 @@
+1. Simple login system (only for HRD), use firebase (optional, di akhir aja)
+
+pre2: scrap tokopedia employees! (DONE!)
+
+2. Add, edit, delete employee (mongoose)
+
+3. Mark employee as (present, sick, absent, or leave) today
+
+4. Page to see employee's attendance for a week
+5. Page to see employee's attendance for a month
+6. Page to see employee's attendance for a year

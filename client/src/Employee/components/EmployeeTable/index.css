@@ -1,0 +1,68 @@
+.main-container {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+.loader-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(1.5, 1.5);
+}
+.container {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+table {
+  width: 100%;
+  border-spacing: 8px;
+}
+td, th {
+  text-align: center;
+}
+th {
+  background-color: #444;
+  border-color: #444;
+  outline: 2px solid #444;
+  color: #fafafa;
+  padding: 4px 0 4px 0;
+  border-bottom: 3px solid #444;
+}
+
+tr {
+  border-bottom: 1px solid lightgray;
+}
+
+.table-controls{
+  display: flex;
+  flex: 1;
+  justify-content: space-between;
+  align-items: center;
+}
+.table-pagination {
+  margin-top: 4px;
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+  justify-content: space-between;
+  align-items: center;
+}
+.pagination-buttons {
+  display: flex;
+  flex: 1;
+  justify-content: flex-end;
+  align-items: center;
+}
+.results {
+  display: flex;
+  flex: 1;
+  justify-content: flex-start;
+  align-items: center;
+}
+/* tr:nth-child(even) {
+  background-color: lightgray;
+}
+tr:nth-child(odd) {
+  background-color: beige;
+} */
