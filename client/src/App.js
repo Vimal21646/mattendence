@@ -3,7 +3,7 @@ import { Route, Link } from 'react-router-dom';
 
 import Login from './Login/index';
 import Home from './Home/index';
-import { EmployeeIndex, EmployeeInsertForm } from './Employee';
+import { EmployeeIndex, EmployeeInsertForm, EmployeeUpdateForm } from './Employee';
 import logo from './logo.svg';
 import './App.css';
 
@@ -23,6 +23,7 @@ class App extends Component {
           <Route exact path="/home" component={Home} />
           <Route exact path="/employee" component={EmployeeIndex} />
           <Route exact path="/employee/add" component={EmployeeInsertForm} />
+          <Route exact path="/employee/edit/:_id" component={EmployeeUpdateForm} />
         </div>
       </div>
     );

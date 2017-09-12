@@ -8,10 +8,11 @@ import TextBox from './../common/TextBox';
 
 import './index.css';
 
-class EmployeeInsertForm extends Component {
+class EmployeeUpdateForm extends Component {
   constructor(props){
     super(props);
     this.state = {
+      _id: this.props.match.params._id,
       name: "",
       department: "",
       origin: "",
@@ -22,6 +23,24 @@ class EmployeeInsertForm extends Component {
     this.handleDepartmentChange = this.handleDepartmentChange.bind(this); 
     this.handleOriginChange = this.handleOriginChange.bind(this); 
     this.submitForm = this.submitForm.bind(this); 
+  }
+
+  componentWillMount(){
+    axios.get("/api/employee/"+this.state._id)
+    .then(
+      (res) => {    
+        var newState = {
+          name: res.data.name,
+          department: res.data.department,
+          origin: res.data.origin,
+          joinDate: res.data.joinDate,
+        }
+        this.setState( newState );
+      }, 
+      (err) => {
+        alert('An error occured! Try refreshing the page.', err);
+      }
+    );
   }
 
   handleDatePickerChange(event){
@@ -38,21 +57,14 @@ class EmployeeInsertForm extends Component {
   }
 
   submitForm(){
-    var { name, department, origin, joinDate } = this.state;
+    var { _id, name, department, origin, joinDate } = this.state;
     var employee = {
-      name, department, origin, joinDate
+      _id, name, department, origin, joinDate
     };
-    axios.post('/api/employee/add', employee)
+    axios.post('/api/employee/update', employee)
     .then(
       (res) => {
-        alert('Submitted successfully!');
-        var clearState = {
-          name: "",
-          department: "",
-          origin: "",
-          joinDate: moment(new Date()).format("YYYY-MM-DD"),
-        };
-        this.setState( clearState );
+        alert('Updated successfully!');
       },
       (err) => {
         alert('An error occured! Try submitting the form again.', err);
@@ -97,7 +109,7 @@ class EmployeeInsertForm extends Component {
 
             <br/>
 
-            <Button onClick={this.submitForm} className="btn btn-success">Add new employee</Button>
+            <Button onClick={this.submitForm} className="btn btn-success">Save changes</Button>
 
           </div>
 
@@ -107,4 +119,4 @@ class EmployeeInsertForm extends Component {
   }
 }
 
-export default EmployeeInsertForm;
+export default EmployeeUpdateForm;

@@ -2,7 +2,8 @@
 
 pre2: scrap tokopedia employees! (DONE!)
 
-2. Add, edit, delete employee (mongoose)
+NEXT:
+2. Insert, Update, Delete employee (mongoose)
 
 3. Mark employee as (present, sick, absent, or leave) today
 

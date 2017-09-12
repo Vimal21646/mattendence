@@ -29,18 +29,20 @@ class EmployeeTable extends Component {
 
   componentWillMount(){
     // fetch data from an API here 
-    axios.get("/api/employee/all")
-    .then(
-      (res) => {    
-        this.setState( { data: res.data} );
-        this.setState( { currentPage: 1 })
-        this.setState( { totalPage: Math.ceil(res.data.length / this.state.limitPage) })
-        this.setState( { loading: false} );
-      }, 
-      (err) => {
-        alert('An error occured! Try refreshing the page.', err);
-      }
-    );
+    if(!this.state.data.length){
+      axios.get("/api/employee/all")
+      .then(
+        (res) => {    
+          this.setState( { data: res.data} );
+          this.setState( { currentPage: 1 })
+          this.setState( { totalPage: Math.ceil(res.data.length / this.state.limitPage) })
+          this.setState( { loading: false} );
+        }, 
+        (err) => {
+          alert('An error occured! Try refreshing the page.', err);
+        }
+      );
+    }
   }
   
   onFilterChange(event){
@@ -67,9 +69,10 @@ class EmployeeTable extends Component {
 
   deleteEmployee(index){
     // delete data to API here
-    axios.get("/api/employee/delete?id="+this.state.data[index].id)
+    axios.get("/api/employee/delete/"+this.state.data[index]._id)
     .then(
       (res) => {    
+        alert('Deleted successfully!');
         var temp = this.state.data;
         temp.splice(index, 1);
         this.setState( { data: temp });
@@ -98,6 +101,8 @@ class EmployeeTable extends Component {
             </td>
           </tr>
         );
+      } else {
+        return undefined;
       }
     });
     
@@ -148,11 +153,15 @@ class EmployeeTable extends Component {
             <td>{row.origin}</td>
             <td>{moment(row.joinDate).format("Do MMMM YYYY")}</td>
             <td>
-              <Button className="btn btn-info">Edit</Button>
+              <Link to={"/employee/edit/"+row._id}>
+                <Button className="btn btn-info">Edit</Button>
+              </Link>
               <Button onClick={() => this.deleteEmployee(i)} className="btn btn-danger">Delete</Button>
             </td>
           </tr>
         );
+      } else {
+        return undefined;
       }
     });
     var filteredTotalPage = this.state.totalPage;
