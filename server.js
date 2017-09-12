@@ -2,7 +2,7 @@ require('dotenv').config();
 
 const express = require('express');
 const path = require('path');
-const firebase = require('firebase');
+// const firebase = require('firebase');
 const axios = require('axios');
 
 var mongoose = require('mongoose');
@@ -20,17 +20,17 @@ var employeeSchema = mongoose.Schema({
 var Employee = mongoose.model('Employee', employeeSchema);
 
 // Initialize Firebase
-const config = {
-  apiKey: "AIzaSyBUmUxknvTLySGJr2RqMjqdGts4mSmW4q8",
-  authDomain: "employee-attendance-tracker.firebaseapp.com",
-  databaseURL: "https://employee-attendance-tracker.firebaseio.com",
-  projectId: "employee-attendance-tracker",
-  storageBucket: "employee-attendance-tracker.appspot.com",
-  messagingSenderId: "490495213936"
-};
-firebase.initializeApp(config);
+// const config = {
+//   apiKey: "AIzaSyBUmUxknvTLySGJr2RqMjqdGts4mSmW4q8",
+//   authDomain: "employee-attendance-tracker.firebaseapp.com",
+//   databaseURL: "https://employee-attendance-tracker.firebaseio.com",
+//   projectId: "employee-attendance-tracker",
+//   storageBucket: "employee-attendance-tracker.appspot.com",
+//   messagingSenderId: "490495213936"
+// };
+// firebase.initializeApp(config);
 
-var database = firebase.database();
+// var database = firebase.database();
 
 const app = express();
 
