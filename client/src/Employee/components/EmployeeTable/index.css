@@ -106,8 +106,8 @@ tr {
 }
 
 @media only screen and (max-width: 480px) {  
-  .employee-table tr :nth-child(4),
-  .employee-table tr :nth-child(5) {
+  .employee-table tr > :nth-child(4),
+  .employee-table tr > :nth-child(5) {
     display: none;
   }
 }

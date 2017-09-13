@@ -6,9 +6,9 @@ pre-2: scrap tokopedia nakamas! (DONE!)
 4. Mark all (DONE!)
 
 NEXT:
-
+4b. Add mark as sick (yellow) and vacation (blue)
 5. Employee profile page, to see graph of past month and past year
-
+  - see how many vacation/sick/present/absent days taken in the past year
 5. Page to see employee's attendance for a week
 6. Page to see employee's attendance for a month
 7. Page to see employee's attendance for a year

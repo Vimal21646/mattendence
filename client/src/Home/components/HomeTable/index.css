@@ -109,10 +109,11 @@ tr {
   }
 }
 @media only screen and (max-width: 600px) {  
-  .attendance-table tr :nth-child(3),
-  .attendance-table tr :nth-child(4),
-  .attendance-table tr :nth-child(5),
-  .attendance-table tr :nth-child(6) {
+  .attendance-table tr > :nth-child(3),
+  .attendance-table tr > :nth-child(4),
+  .attendance-table tr > :nth-child(5),
+  .attendance-table tr > :nth-child(6),
+  .attendance-table tr > :nth-child(7) {
     display: none;
   }
   .content {

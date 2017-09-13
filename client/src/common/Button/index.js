@@ -7,6 +7,7 @@ class Button extends Component {
       <div tabIndex="0" 
           className={this.props.className} 
           onClick={this.props.onClick}
+          title={this.props.title}
       >
         {this.props.children}
       </div>

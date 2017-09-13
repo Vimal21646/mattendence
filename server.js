@@ -109,7 +109,7 @@ app.get('/api/employee/mark/:id/:date/:label', (req, res) => {
   var _id = req.params.id;
   var date = req.params.date;
   var label = req.params.label;
-  if(label == "Absent") label = false;
+  
   var employee = {};
   var updatedField = 'attendances.'+date;
   employee[updatedField] = label;

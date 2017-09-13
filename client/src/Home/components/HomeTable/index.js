@@ -77,7 +77,6 @@ class HomeTable extends Component {
         alert('Recorded successfully!');
         var temp = this.state.data;
         if(!temp[index].attendances) temp[index].attendances = {};
-        if(label == "Absent") label = false;
         temp[index].attendances[date] = label;
         this.setState( { data: temp });
       }, 
@@ -97,7 +96,6 @@ class HomeTable extends Component {
         var temp = this.state.data;
         temp.forEach((employee) => {
           if(!employee.attendances) employee.attendances = {};
-          if(label == "Absent") label = false;
           employee.attendances[date] = label;
         })
         this.setState( { data: temp });
@@ -130,22 +128,67 @@ class HomeTable extends Component {
           <tr key={"employeeData"+i}>
             <td>{i+1}</td>
             <td>{row.name}</td>
-            <td className={ attd[dates[0]] ? "bg-success" : "bg-danger" }></td>
-            <td className={ attd[dates[1]] ? "bg-success" : "bg-danger" }></td>
-            <td className={ attd[dates[2]] ? "bg-success" : "bg-danger" }></td>
-            <td className={ attd[dates[3]] ? "bg-success" : "bg-danger" }></td>
-            <td className={ attd[dates[4]] ? "bg-success" : "bg-danger" }></td>
-            <td className={ attd[dates[5]] ? "bg-success" : "bg-danger" }></td>
-            <td className={ attd[dates[6]] ? "bg-success" : "bg-danger" }></td>
+            <td className=
+                { attd[dates[0]] === "Vacation" ? "bg-info" 
+                  : ( attd[dates[0]]  === "Present" ? "bg-success" 
+                    : ( attd[dates[0]] === "Sick" ? "bg-warning" : "bg-danger")) }></td>
+            <td className=
+                { attd[dates[1]] === "Vacation" ? "bg-info" 
+                  : ( attd[dates[1]]  === "Present" ? "bg-success" 
+                    : ( attd[dates[1]] === "Sick" ? "bg-warning" : "bg-danger")) }></td>
+            <td className=
+                { attd[dates[2]] === "Vacation" ? "bg-info" 
+                  : ( attd[dates[2]]  === "Present" ? "bg-success" 
+                    : ( attd[dates[2]] === "Sick" ? "bg-warning" : "bg-danger")) }></td>
+            <td className=
+                { attd[dates[3]] === "Vacation" ? "bg-info" 
+                  : ( attd[dates[3]]  === "Present" ? "bg-success" 
+                    : ( attd[dates[3]] === "Sick" ? "bg-warning" : "bg-danger")) }></td>
+            <td className=
+                { attd[dates[4]] === "Vacation" ? "bg-info" 
+                  : ( attd[dates[4]]  === "Present" ? "bg-success" 
+                    : ( attd[dates[4]] === "Sick" ? "bg-warning" : "bg-danger")) }></td>
+            <td className=
+                { attd[dates[5]] === "Vacation" ? "bg-info" 
+                  : ( attd[dates[5]]  === "Present" ? "bg-success" 
+                    : ( attd[dates[5]] === "Sick" ? "bg-warning" : "bg-danger")) }></td>
+            <td className=
+                { attd[dates[6]] === "Vacation" ? "bg-info" 
+                  : ( attd[dates[6]]  === "Present" ? "bg-success" 
+                    : ( attd[dates[6]] === "Sick" ? "bg-warning" : "bg-danger")) }></td>
             <td>
               <Button 
-                onClick={(attd[this.state.today]) 
+                onClick={() => this.markTodayEmployee(i, "Present")} 
+                className="btn btn-success"
+                title="Present"
+              > P
+              </Button>
+              <Button 
+                onClick={() => this.markTodayEmployee(i, "Sick")} 
+                className="btn btn-warning"
+                title="Sick"
+              > S
+              </Button>
+              <Button 
+                onClick={() => this.markTodayEmployee(i, "Vacation")} 
+                className="btn btn-info"
+                title="Vacation"
+              > V
+              </Button>
+              <Button 
+                onClick={() => this.markTodayEmployee(i, "Absent")} 
+                className="btn btn-danger"
+                title="Absent"
+              > A
+              </Button>
+              {/* <Button 
+                onClick={(attd[this.state.today] === "Present") 
                           ? () => this.markTodayEmployee(i, "Absent")
                           : () => this.markTodayEmployee(i, "Present")} 
-                className={(attd[this.state.today]) ? "btn btn-danger" : "btn btn-success" }
+                className={(attd[this.state.today] === "Present") ? "btn btn-danger" : "btn btn-success" }
               >
-                { (attd[this.state.today] ? "Mark as absent today" : "Mark as present today") }
-              </Button>
+                { (attd[this.state.today] === "Present" ? "Mark as absent today" : "Mark as present today") }
+              </Button> */}
             </td>
           </tr>
         );
@@ -161,7 +204,7 @@ class HomeTable extends Component {
       if(filtered.length > this.state.limitPage){
         lowerBound = (this.state.currentPage-1) * this.state.limitPage;
         upperBound = (this.state.currentPage) * this.state.limitPage;
-        console.log("getting from index", lowerBound, "to", lowerBound+this.state.limitPage);
+        // console.log("getting from index", lowerBound, "to", lowerBound+this.state.limitPage);
         filtered = filtered.slice(lowerBound, upperBound);
       }
       filteredTotalPage = Math.ceil(totalCount / this.state.limitPage)
@@ -219,7 +262,7 @@ class HomeTable extends Component {
               <th>{moment(this.state.today).subtract(2, 'days').format("ddd, Do MMM")}</th>
               <th>{moment(this.state.today).subtract(1, 'days').format("ddd, Do MMM")}</th>
               <th>{moment(this.state.today).subtract(0, 'days').format("ddd, Do MMM")}</th>
-              <th>Action</th>
+              <th>Mark today as</th>
             </tr>
             { filtered }
             </tbody>
