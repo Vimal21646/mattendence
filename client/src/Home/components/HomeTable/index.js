@@ -9,7 +9,7 @@ import Button from './../../../common/Button/index.js';
 import TextBox from './../../../common/TextBox';
 import './index.css';
 
-class EmployeeTable extends Component {
+class HomeTable extends Component {
   constructor(props){
     super(props);
 
@@ -21,7 +21,8 @@ class EmployeeTable extends Component {
       limitPage: 10,
       shownCount: 0,
       totalCount: 0,
-      loading: true
+      loading: true,
+      today: moment(new Date()).format("YYYY-MM-DD")
     };
 
     this.onFilterChange = this.onFilterChange.bind(this);
@@ -67,73 +68,23 @@ class EmployeeTable extends Component {
     }
   }
 
-  deleteEmployee(index){
-    // delete data to API here
-    axios.get("/api/employee/delete/"+this.state.data[index]._id)
+  markTodayEmployee(index, label){
+    // mark employee today
+    var date = this.state.today;
+    axios.get("/api/employee/mark/"+this.state.data[index]._id+"/"+date+"/"+label)
     .then(
       (res) => {    
-        alert('Deleted successfully!');
+        alert('Recorded successfully!');
         var temp = this.state.data;
-        temp.splice(index, 1);
+        if(!temp[index].attendances) temp[index].attendances = {};
+        if(label == "Absent") label = false;
+        temp[index].attendances[date] = label;
         this.setState( { data: temp });
       }, 
       (err) => {
         alert('An error occured! Try again.', err);
       }
     );
-  }
-
-  renderData(){
-    var filtered = [];
-
-    filtered = this.state.data.map( (row, i) => {
-      if(row.name.toLowerCase().indexOf(this.state.nameFilter) > -1){
-        return (
-          <tr key={"employeeData"+i}>
-            <td>{i+1}</td>
-            <td>{row.name}</td>
-            <td>{row.department}</td>
-            <td>{row.origin}</td>
-            <td>{moment(row.joinDate).format("Do MMMM YYYY")}</td>
-            <td>
-              <Button className="btn btn-info">Edit</Button>
-              <Button onClick={() => this.deleteEmployee(i)} className="btn btn-danger">Delete</Button>
-            </td>
-          </tr>
-        );
-      } else {
-        return undefined;
-      }
-    });
-    
-    
-    // filtered = filtered.forEach((row, i) => {
-    //   var lowerBound = (this.stateCurrentPage-1) * this.state.limitPage;
-    //   var upperBound = (this.stateCurrentPage) * this.state.limitPage;
-    //   if(i >= lowerBound && i < upperBound) return;
-    //   else row = undefined;
-    // });
-
-    filtered = filtered.filter((row) => row !== undefined);
-    if(filtered.length > 0) {
-      if(filtered.length > this.state.limitPage){
-        var totalCount = filtered.length;
-        this.setState( { totalCount: totalCount} );
-        var lowerBound = (this.state.currentPage-1) * this.state.limitPage;
-        var upperBound = (this.state.currentPage) * this.state.limitPage;
-        console.log("getting from index", lowerBound, "to", lowerBound+this.state.limitPage);
-        filtered = filtered.slice(lowerBound, upperBound);
-      }
-      var shownCount = filtered.length;
-      this.setState( { shownCount: shownCount} );
-      return filtered;
-    } else {
-      return (
-        <tr>
-          <td colSpan="6"><em>No employee found</em></td>
-        </tr>
-      )
-    }
   }
 
   renderTable() {
@@ -145,18 +96,35 @@ class EmployeeTable extends Component {
 
     filtered = this.state.data.map( (row, i) => {
       if(row.name.toLowerCase().indexOf(this.state.nameFilter) > -1){
+        var attd = row.attendances || {};
+        var dates = [];
+        dates.push(moment(this.state.today).subtract(6, 'days').format("YYYY-MM-DD"));
+        dates.push(moment(this.state.today).subtract(5, 'days').format("YYYY-MM-DD"));
+        dates.push(moment(this.state.today).subtract(4, 'days').format("YYYY-MM-DD"));
+        dates.push(moment(this.state.today).subtract(3, 'days').format("YYYY-MM-DD"));
+        dates.push(moment(this.state.today).subtract(2, 'days').format("YYYY-MM-DD"));
+        dates.push(moment(this.state.today).subtract(1, 'days').format("YYYY-MM-DD"));
+        dates.push(moment(this.state.today).subtract(0, 'days').format("YYYY-MM-DD"));
         return (
           <tr key={"employeeData"+i}>
             <td>{i+1}</td>
             <td>{row.name}</td>
-            <td>{row.department}</td>
-            <td>{row.origin}</td>
-            <td>{moment(row.joinDate).format("Do MMMM YYYY")}</td>
+            <td className={ attd[dates[0]] ? "bg-success" : "bg-danger" }></td>
+            <td className={ attd[dates[1]] ? "bg-success" : "bg-danger" }></td>
+            <td className={ attd[dates[2]] ? "bg-success" : "bg-danger" }></td>
+            <td className={ attd[dates[3]] ? "bg-success" : "bg-danger" }></td>
+            <td className={ attd[dates[4]] ? "bg-success" : "bg-danger" }></td>
+            <td className={ attd[dates[5]] ? "bg-success" : "bg-danger" }></td>
+            <td className={ attd[dates[6]] ? "bg-success" : "bg-danger" }></td>
             <td>
-              <Link to={"/employee/edit/"+row._id}>
-                <Button className="btn btn-info">Edit</Button>
-              </Link>
-              <Button onClick={() => this.deleteEmployee(i)} className="btn btn-danger">Delete</Button>
+              <Button 
+                onClick={(attd[this.state.today]) 
+                          ? () => this.markTodayEmployee(i, "Absent")
+                          : () => this.markTodayEmployee(i, "Present")} 
+                className={(attd[this.state.today]) ? "btn btn-danger" : "btn btn-success" }
+              >
+                { (attd[this.state.today] ? "Mark as absent today" : "Mark as present today") }
+              </Button>
             </td>
           </tr>
         );
@@ -213,14 +181,18 @@ class EmployeeTable extends Component {
               {(this.state.currentPage < filteredTotalPage) ? buttonIncrease : ""}
             </div>
           </div>
-          <table className="employee-table">
+          <table className="attendance-table">
             <tbody>
             <tr>
               <th>No</th>
               <th>Name</th>
-              <th>Unit</th>
-              <th>Origin</th>
-              <th>Joined at</th>
+              <th>{moment(this.state.today).subtract(6, 'days').format("ddd, Do MMM")}</th>
+              <th>{moment(this.state.today).subtract(5, 'days').format("ddd, Do MMM")}</th>
+              <th>{moment(this.state.today).subtract(4, 'days').format("ddd, Do MMM")}</th>
+              <th>{moment(this.state.today).subtract(3, 'days').format("ddd, Do MMM")}</th>
+              <th>{moment(this.state.today).subtract(2, 'days').format("ddd, Do MMM")}</th>
+              <th>{moment(this.state.today).subtract(1, 'days').format("ddd, Do MMM")}</th>
+              <th>{moment(this.state.today).subtract(0, 'days').format("ddd, Do MMM")}</th>
               <th>Action</th>
             </tr>
             { filtered }
@@ -245,4 +217,4 @@ class EmployeeTable extends Component {
   }
 }
 
-export default EmployeeTable;
+export default HomeTable;

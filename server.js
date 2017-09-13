@@ -14,7 +14,7 @@ var employeeSchema = mongoose.Schema({
     department: String,
     origin: String,
     joinDate: String,
-    attendances: mongoose.Schema.Types.Mixed
+    attendances: Object
 });
 var Employee = mongoose.model('Employee', employeeSchema);
 
@@ -71,7 +71,7 @@ app.post('/api/employee/update', (req, res) => {
 
 app.get('/api/employee/all', (req, res) => {
   // querying all employees
-  Employee.find({}, function(err, employees){
+  Employee.find({}, null, {sort: {name: 1}}, function(err, employees){
     // kalau mau send object
     // var employeeMap = {};
     // employees.forEach(function(employee) {
@@ -105,7 +105,25 @@ app.get('/api/employee/:id', (req, res) => {
     }
   });
 });
-
+app.get('/api/employee/mark/:id/:date/:label', (req, res) => {
+  var _id = req.params.id;
+  var date = req.params.date;
+  var label = req.params.label;
+  if(label == "Absent") label = false;
+  var employee = {};
+  var updatedField = 'attendances.'+date;
+  employee[updatedField] = label;
+  
+  Employee.findByIdAndUpdate(_id, { $set: employee }, { new: true }, function (err, employee) {
+    if (err) {
+      res.status(500);
+      res.send(err);
+    } else {
+      res.status(200);
+      res.send(employee);
+    }
+  });
+});
 app.get('/api/employee/delete/:id', (req, res) => {
   var _id = req.params.id;
   Employee.findByIdAndRemove(_id, function(err){

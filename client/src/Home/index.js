@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import HomeTable from './components/HomeTable/index';
 import './index.css';
 
 class Home extends Component {
@@ -9,6 +10,7 @@ class Home extends Component {
           Home
         </div>
         <div className="content">
+          <HomeTable />
         </div>
       </div>
     );

@@ -1,9 +1,9 @@
 1. Simple login system (only for HRD), use firebase (optional, di akhir aja)
 
 pre2: scrap tokopedia employees! (DONE!)
+2. Insert, Update, Delete employee (mongoose) (DONE!)
 
 NEXT:
-2. Insert, Update, Delete employee (mongoose)
 
 3. Mark employee as (present, sick, absent, or leave) today
 

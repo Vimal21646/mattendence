@@ -66,7 +66,7 @@ class EmployeeInsertForm extends Component {
         <div className="heading">
           Add a new employee
         </div>
-        <div className="content">
+        <div className="form-container">
           <div className="form">
             Name <br/>
             <TextBox 

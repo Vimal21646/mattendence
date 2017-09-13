@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 // import DatePicker from 'react-datepicker';
 import axios from 'axios';
 import moment from 'moment';
+import { PacmanLoader } from 'react-spinners';
 import DatePicker from './../common/DatePicker';
 import Button from './../common/Button';
 import TextBox from './../common/TextBox';
@@ -16,6 +17,7 @@ class EmployeeUpdateForm extends Component {
       name: "",
       department: "",
       origin: "",
+      loading: true,
       joinDate: moment(new Date()).format("YYYY-MM-DD"),
     };
     this.handleDatePickerChange = this.handleDatePickerChange.bind(this); 
@@ -36,6 +38,7 @@ class EmployeeUpdateForm extends Component {
           joinDate: res.data.joinDate,
         }
         this.setState( newState );
+        this.setState( { loading: false } );
       }, 
       (err) => {
         alert('An error occured! Try refreshing the page.', err);
@@ -71,14 +74,10 @@ class EmployeeUpdateForm extends Component {
       }
     );
   }
-
-  render() {
-    return (
-      <div className="container">
-        <div className="heading">
-          Add a new employee
-        </div>
-        <div className="content">
+  renderForm(){
+    if(!this.state.loading){
+      return (
+        <div className="form-container">
           <div className="form">
             Name <br/>
             <TextBox 
@@ -114,6 +113,22 @@ class EmployeeUpdateForm extends Component {
           </div>
 
         </div>
+      );
+    }
+  }
+  render() {
+    return (
+      <div className="container">
+        <div className="heading">
+          Update employee information
+        </div>
+        <div className="loader-container">
+          <PacmanLoader
+            color={'#444'} 
+            loading={this.state.loading} 
+          />
+        </div>
+        {this.renderForm()}
       </div>
     );
   }
