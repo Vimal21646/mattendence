@@ -267,6 +267,15 @@ class HomeTable extends Component {
             { filtered }
             </tbody>
           </table>
+          <div className="table-controls">
+            <div className="table-legends">
+              Legends: 
+              <div padding="2" className="legends bg-success">Present</div>              
+              <div padding="2" className="legends bg-warning">Sick</div>              
+              <div padding="2" className="legends bg-info">Vacation</div>              
+              <div padding="2" className="legends bg-danger">Absent</div>              
+            </div>
+          </div>
         </div>
       );
   }

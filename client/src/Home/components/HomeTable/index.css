@@ -66,6 +66,20 @@ tr {
   flex: 1;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 4px;
+  margin-top: 4px;
+}
+.table-legends{
+  display: flex;
+  flex: 1;
+  justify-content: flex-start;
+  align-items: center;
+}
+.legends {
+  padding: 4px;
+  margin-left: 4px;
+  margin-right: 4px;
+  border-radius: 3px;
 }
 .table-pagination {
   margin-top: 4px;
@@ -102,6 +116,7 @@ tr {
     width: 60%;
   }
 }
+
 @media only screen and (min-width: 430px) {  
   .content {
     padding: 8px 8px 8px 8px;
@@ -118,6 +133,13 @@ tr {
   }
   .content {
     font-size: 14px;
+  }
+}
+@media only screen and (max-width: 1150px) {  
+  .attendance-table tr > :nth-child(10) {
+    min-width: 5em;
+    width: 5em;
+    max-width: 5em;
   }
 }
 /* tr:nth-child(even) {
