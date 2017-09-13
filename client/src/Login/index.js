@@ -9,15 +9,15 @@ class Login extends Component {
           
         </div>
         <div className="Login-content">
-          <div>
+          <div className="fill-width">
             Welcome to this simple Employees Attendance Tracker web-app developed using React!
           </div>
           <br/>
-          <div>
+          <div className="fill-width">
             There are no logins (as of now, because of time constraints), just use the app right away! 
           </div>
           <br/>
-          <div>
+          <div className="fill-width">
             Employees data are scrapped from Tokopedia team page (the Nakamas!)
           </div>
         </div>

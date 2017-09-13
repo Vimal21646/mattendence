@@ -55,7 +55,7 @@ class EmployeeDetail extends Component {
       "Vacation": <div padding="2" className="legends-inline bg-info">vacation</div>,
       "Absent": <div padding="2" className="legends-inline bg-danger">absent</div>
     };
-    var { name, department, origin, joinDate, attendances } = this.state;
+    var { name, department, origin, joinDate, attendances, today } = this.state;
     if(!this.state.loading){
       return (
         <div className="Detail-container">
@@ -78,7 +78,7 @@ class EmployeeDetail extends Component {
 
           <div className="Detail-card">
             <div className="Detail-card-row justify-center">
-              Today status: {legends[attendances[this.state.today]]} 
+              Today status: { !!attendances ? legends[attendances[today]] : legends["Absent"] } 
             </div>
 
             <div className="Detail-card-separator"/>
