@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Employees Attendance Tracker",
+  "name": "Employees Attendance Tracker",
   "icons": [
     {
       "src": "favicon.ico",

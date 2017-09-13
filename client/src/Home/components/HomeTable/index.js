@@ -87,6 +87,27 @@ class HomeTable extends Component {
     );
   }
 
+  markTodayAllEmployees(label){
+    // mark all employee today
+    var date = this.state.today;
+    axios.get("/api/employee/all/mark/"+date+"/"+label)
+    .then(
+      (res) => {    
+        alert('Recorded successfully!');
+        var temp = this.state.data;
+        temp.forEach((employee) => {
+          if(!employee.attendances) employee.attendances = {};
+          if(label == "Absent") label = false;
+          employee.attendances[date] = label;
+        })
+        this.setState( { data: temp });
+      }, 
+      (err) => {
+        alert('An error occured! Try again.', err);
+      }
+    );
+  }
+
   renderTable() {
     var totalCount = 0;
     var shownCount = 0;
@@ -166,9 +187,14 @@ class HomeTable extends Component {
       return (
         <div className="container">
           <div className="table-controls">
-            <Link to="/employee/add">
-              <Button className="btn btn-success">Add new employee</Button>
-            </Link>
+            <div>
+              <Button className="btn btn-success" onClick={() => this.markTodayAllEmployees("Present")}>
+                All present today
+              </Button>
+              <Button className="btn btn-danger" onClick={() => this.markTodayAllEmployees("Absent")}>
+                All absent today
+              </Button>
+            </div>
             <TextBox placeholder="filter by name..." onChange={this.onFilterChange} value={this.state.nameFilter}/>
           </div>
           <div className="table-pagination">

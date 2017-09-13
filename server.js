@@ -21,7 +21,7 @@ var Employee = mongoose.model('Employee', employeeSchema);
 const app = express();
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
-
+app.disable('etag');
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, 'client/build')));
 
@@ -121,6 +121,24 @@ app.get('/api/employee/mark/:id/:date/:label', (req, res) => {
     } else {
       res.status(200);
       res.send(employee);
+    }
+  });
+});
+app.get('/api/employee/all/mark/:date/:label', (req, res) => {
+  var date = req.params.date;
+  var label = req.params.label;
+  if(label == "Absent") label = false;
+  var employee = {};
+  var updatedField = 'attendances.'+date;
+  employee[updatedField] = label;
+
+  Employee.update({}, { $set: employee }, { multi: true }, function (err, employees) {
+    if (err) {
+      res.status(500);
+      res.send(err);
+    } else {
+      res.status(200);
+      res.send();
     }
   });
 });
