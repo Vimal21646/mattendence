@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 // import { Table, Column, Cell } from 'fixed-data-table';
-import { PacmanLoader } from 'react-spinners';
+import { BarLoader } from 'react-spinners';
 import moment from 'moment';
 
 import Button from './../../../common/Button/index.js';
@@ -238,7 +238,7 @@ class EmployeeTable extends Component {
     return (
       <div className="main-container">
         <div className="loader-container">
-          <PacmanLoader
+          <BarLoader
             color={'#444'} 
             loading={this.state.loading} 
           />

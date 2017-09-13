@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 // import DatePicker from 'react-datepicker';
 import axios from 'axios';
 import moment from 'moment';
-import { PacmanLoader } from 'react-spinners';
+import { BarLoader } from 'react-spinners';
 import DatePicker from './../common/DatePicker';
 import Button from './../common/Button';
 import TextBox from './../common/TextBox';
@@ -151,7 +151,7 @@ class EmployeeDetail extends Component {
           {/* Employee's detail */}
         </div>
         <div className="loader-container">
-          <PacmanLoader
+          <BarLoader
             color={'#444'} 
             loading={this.state.loading} 
           />

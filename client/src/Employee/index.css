@@ -82,6 +82,10 @@
 .justify-center{
   justify-content: center;
 }
+.align-stretch{
+  align-items: stretch;
+}
+
 .Detail-card-col{
   display: flex;
   flex: 1;

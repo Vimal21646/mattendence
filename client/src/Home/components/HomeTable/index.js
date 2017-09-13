@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 // import { Table, Column, Cell } from 'fixed-data-table';
-import { PacmanLoader } from 'react-spinners';
+import { BarLoader } from 'react-spinners';
 import moment from 'moment';
 
 import Button from './../../../common/Button/index.js';
@@ -233,15 +233,30 @@ class HomeTable extends Component {
     if(!this.state.loading)
       return (
         <div className="container">
-          <div className="table-controls">
+          <div className="table-controls justify-center align-stretch">
             <div>
-              <Button className="btn btn-success" onClick={() => this.markTodayAllEmployees("Present")}>
+              <Button className="btn btn-success" 
+                onClick={() => {
+                  if(window.confirm("Are you sure to mark all employees as `Present` for today?"))
+                    this.markTodayAllEmployees("Present");
+                }}>
                 All present today
               </Button>
-              <Button className="btn btn-danger" onClick={() => this.markTodayAllEmployees("Absent")}>
+            </div>
+            
+            <div>
+              <Button className="btn btn-danger" 
+                onClick={() => {
+                  if(window.confirm("Are you sure to mark all employees as `Absent` for today?"))
+                    this.markTodayAllEmployees("Absent");
+                }}>
                 All absent today
               </Button>
             </div>
+
+          </div>
+          <div className="table-controls">
+            <div></div>
             <TextBox placeholder="filter by name..." onChange={this.onFilterChange} value={this.state.nameFilter}/>
           </div>
           <div className="table-pagination">
@@ -288,7 +303,7 @@ class HomeTable extends Component {
     return (
       <div className="main-container">
         <div className="loader-container">
-          <PacmanLoader
+          <BarLoader
             color={'#444'} 
             loading={this.state.loading} 
           />

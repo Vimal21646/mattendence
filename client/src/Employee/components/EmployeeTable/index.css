@@ -4,10 +4,17 @@
   flex-direction: column;
 }
 .loader-container {
-  position: absolute;
+  /* display: flex;
+  flex: 1;
+  justify-content: center;
+  align-items: center; */
+  /* position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%) scale(1.5, 1.5);
+  transform: translate(-50%, -50%) scale(1.5, 1.5); */
+  /* position: relative; */
+  /* margin-top: 125px;
+  margin-left: -15px; */
 }
 .container {
   display: flex;
@@ -98,6 +105,11 @@ tr {
   }
 }
 
+.employee-table tr > :nth-child(6){
+  min-width: 5em;
+  width: 5em;
+  max-width: 5em;
+}
 @media only screen and (max-width: 480px) {  
   .employee-table tr > :nth-child(4),
   .employee-table tr > :nth-child(5) {
