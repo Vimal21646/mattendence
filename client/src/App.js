@@ -38,16 +38,16 @@ class App extends Component {
               className={this.state.currentTab === 1 ? "App-nav-item active" : "App-nav-item"} 
               onClick={() => this.handleNavigationChange(1)}
           >
-            <Link to={`/home`}>
-              Home
+            <Link to={`/`}>
+              Landing
             </Link>
           </div>
           <div
               className={this.state.currentTab === 2 ? "App-nav-item active" : "App-nav-item"} 
               onClick={() => this.handleNavigationChange(2)}
           >
-            <Link to={`/employee`}>
-              Employees
+            <Link to={`/home`}>
+              Home
             </Link>
           </div>
           <div
@@ -55,7 +55,7 @@ class App extends Component {
               onClick={() => this.handleNavigationChange(3)}
           >
             <Link to={`/employee`}>
-              About
+              Employees
             </Link>
           </div>
         </div>
