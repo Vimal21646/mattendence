@@ -3,11 +3,20 @@ import { Route, Link } from 'react-router-dom';
 
 import Login from './Login/index';
 import Home from './Home/index';
-import { EmployeeIndex, EmployeeInsertForm, EmployeeUpdateForm } from './Employee';
+import { EmployeeIndex, EmployeeInsertForm, EmployeeUpdateForm, EmployeeDetail } from './Employee';
 import logo from './logo.svg';
 import './App.css';
 
 class App extends Component {
+  constructor(){
+    super();
+    this.state = {
+      currentTab: 1
+    };
+  }
+  handleNavigationChange(i){
+    this.setState({currentTab: i });
+  }
   render() {
     return (
       <div className="App">
@@ -16,14 +25,39 @@ class App extends Component {
           <span className="App-name">Employees Attendance Tracker</span>
         </div>
         <div className="App-content">
-          <Link to={`/`}>Login</Link>
-          |<Link to={`/home`}>Home</Link>
-          |<Link to={`/employee`}>Employee</Link>
           <Route exact path="/" component={Login} />
           <Route exact path="/home" component={Home} />
           <Route exact path="/employee" component={EmployeeIndex} />
           <Route exact path="/employee/add" component={EmployeeInsertForm} />
           <Route exact path="/employee/edit/:_id" component={EmployeeUpdateForm} />
+          <Route exact path="/employee/detail/:_id" component={EmployeeDetail} />
+        </div>
+        <div className="App-nav">
+          {/* <Link to={`/`}>Login</Link> */}
+          <div 
+              className={this.state.currentTab === 1 ? "App-nav-item active" : "App-nav-item"} 
+              onClick={() => this.handleNavigationChange(1)}
+          >
+            <Link to={`/home`}>
+              Home
+            </Link>
+          </div>
+          <div
+              className={this.state.currentTab === 2 ? "App-nav-item active" : "App-nav-item"} 
+              onClick={() => this.handleNavigationChange(2)}
+          >
+            <Link to={`/employee`}>
+              Employees
+            </Link>
+          </div>
+          <div
+              className={this.state.currentTab === 3 ? "App-nav-item active" : "App-nav-item"} 
+              onClick={() => this.handleNavigationChange(3)}
+          >
+            <Link to={`/employee`}>
+              About
+            </Link>
+          </div>
         </div>
       </div>
     );

@@ -7,7 +7,7 @@ class EmployeeIndex extends Component {
     return (
       <div className="container">
         <div className="heading">
-          Employees
+          {/* Employees */}
         </div>
         <div className="content">
           <EmployeeTable />

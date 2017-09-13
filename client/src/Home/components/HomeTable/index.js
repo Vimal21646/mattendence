@@ -127,7 +127,11 @@ class HomeTable extends Component {
         return (
           <tr key={"employeeData"+i}>
             <td>{i+1}</td>
-            <td>{row.name}</td>
+            <td>
+              <Link to={"/employee/detail/" + row._id}>
+                {row.name}
+              </Link>
+            </td>
             <td className=
                 { attd[dates[0]] === "Vacation" ? "bg-info" 
                   : ( attd[dates[0]]  === "Present" ? "bg-success" 

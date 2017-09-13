@@ -148,7 +148,11 @@ class EmployeeTable extends Component {
         return (
           <tr key={"employeeData"+i}>
             <td>{i+1}</td>
-            <td>{row.name}</td>
+            <td>
+              <Link to={"/employee/detail/" + row._id}>
+                {row.name}
+              </Link>
+            </td>
             <td>{row.department}</td>
             <td>{row.origin}</td>
             <td>{moment(row.joinDate).format("Do MMMM YYYY")}</td>
