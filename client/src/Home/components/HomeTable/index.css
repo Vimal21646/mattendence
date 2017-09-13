@@ -50,18 +50,25 @@
 
 table {
   width: 100%;
-  border-spacing: 8px;
+  border-spacing: 4px;
+  border: 1px solid lightgray;
+  box-shadow: 0px 5px 5px -2px gray; 
+  padding: 8px 0 8px 0;
+  margin: 8px 0 8px 0;
 }
 td, th {
   text-align: center;
+  border-radius: 3px;
 }
 th {
   background-color: #444;
   border-color: #444;
-  outline: 2px solid #444;
+  /* outline: 2px solid #444; */
   color: #fafafa;
   padding: 4px 0 4px 0;
-  border-bottom: 3px solid #444;
+  /* box-shadow: 0px 5px 5px -2px gray;  */
+  /* box-shadow: 0 0 8px 0 #444; */
+  /* border: 4px solid #444; */
 }
 
 tr {
@@ -83,6 +90,13 @@ tr {
   align-items: center;
 }
 .legends {
+  padding: 4px;
+  margin-left: 4px;
+  margin-right: 4px;
+  border-radius: 3px;
+}
+.legends-inline {
+  display: inline-block;
   padding: 4px;
   margin-left: 4px;
   margin-right: 4px;
@@ -141,6 +155,17 @@ tr {
   .content {
     font-size: 14px;
   }
+}
+.attendance-table tr > :nth-child(3),
+.attendance-table tr > :nth-child(4),
+.attendance-table tr > :nth-child(5),
+.attendance-table tr > :nth-child(6),
+.attendance-table tr > :nth-child(7),
+.attendance-table tr > :nth-child(8),
+.attendance-table tr > :nth-child(9) {
+  min-width: 2.9em;
+  width: 2.9em;
+  max-width: 2.9em;
 }
 @media only screen and (max-width: 1150px) {  
   .attendance-table tr > :nth-child(10) {

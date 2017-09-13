@@ -10,11 +10,15 @@ class Login extends Component {
         </div>
         <div className="Login-content">
           <div>
-            Welcome to this simple Employee Attendance Tracker PWA developed using React!
+            Welcome to this simple Employees Attendance Tracker web-app developed using React!
           </div>
           <br/>
           <div>
             There are no logins (as of now, because of time constraints), just use the app right away! 
+          </div>
+          <br/>
+          <div>
+            Employees data are scrapped from Tokopedia team page (the Nakamas!)
           </div>
         </div>
       </div>

@@ -11,7 +11,7 @@ class App extends Component {
   constructor(){
     super();
     this.state = {
-      currentTab: 1
+      currentTab: 0
     };
   }
   handleNavigationChange(i){

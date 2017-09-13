@@ -3,6 +3,7 @@ require('dotenv').config();
 const express = require('express');
 const path = require('path');
 const axios = require('axios');
+const moment = require('moment');
 const bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 mongoose.connect(process.env.PROD_MONGODB, { useMongoClient: true });
@@ -102,6 +103,52 @@ app.get('/api/employee/:id', (req, res) => {
       res.send(err);
     } else {
       res.json(employee);
+    }
+  });
+});
+
+app.get('/api/employee/detail/:id', (req, res) => {
+  // querying one employee's detail
+  var _id = req.params.id;
+
+  Employee.findOne({_id: _id}, function(err, employee){
+    if(err){
+      res.status(500);
+      res.send(err);
+    } else {
+      var data = {};
+      data.employee = employee;
+      data.last30Days = {
+        "Present": 0, "Sick": 0, "Vacation": 0, "Absent": 0
+      };
+      data.last365Days = {
+        "Present": 0, "Sick": 0, "Vacation": 0, "Absent": 0
+      };
+      
+      var today = new Date();
+      var count = 0;
+      if(!employee.attendances){
+        // kalau employee belum ada record attendance, anggap semua absen
+        data.last30Days.Absent = 30;
+        data.last365Days.Absent = 365;
+      } else {
+        // jika uda ada, maka kita perlu hitung satu satu
+        while(count < 365){
+          var checkedDate = moment(today).subtract(count, "days").format("YYYY-MM-DD");
+          if(!employee.attendances[checkedDate]){
+            // jika tidak ada, berarti absent
+            if(count < 30) data.last30Days.Absent++;
+            data.last365Days.Absent++;
+          } else {
+            // jika ada, cek apa itu
+            var status = employee.attendances[checkedDate];
+            if(count < 31) data.last30Days[status]++;
+            data.last365Days[status]++;
+          }
+          count++;
+        }
+      }
+      res.json(data);
     }
   });
 });

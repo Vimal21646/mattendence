@@ -9,7 +9,7 @@ import TextBox from './../common/TextBox';
 
 import './index.css';
 
-class EmployeeUpdateForm extends Component {
+class EmployeeDetail extends Component {
   constructor(props){
     super(props);
     this.state = {
@@ -17,28 +17,30 @@ class EmployeeUpdateForm extends Component {
       name: "",
       department: "",
       origin: "",
+      attendances: {},
+      last30Days: {},
+      last365Days: {},
       loading: true,
       joinDate: moment(new Date()).format("YYYY-MM-DD"),
+      today: moment(new Date()).format("YYYY-MM-DD")
     };
-    this.handleDatePickerChange = this.handleDatePickerChange.bind(this); 
-    this.handleNameChange = this.handleNameChange.bind(this); 
-    this.handleDepartmentChange = this.handleDepartmentChange.bind(this); 
-    this.handleOriginChange = this.handleOriginChange.bind(this); 
-    this.submitForm = this.submitForm.bind(this); 
   }
 
   componentWillMount(){
-    axios.get("/api/employee/"+this.state._id)
+    axios.get("/api/employee/detail/"+this.state._id)
     .then(
       (res) => {    
         var newState = {
-          name: res.data.name,
-          department: res.data.department,
-          origin: res.data.origin,
-          joinDate: res.data.joinDate,
+          name: res.data.employee.name,
+          department: res.data.employee.department,
+          origin: res.data.employee.origin,
+          joinDate: res.data.employee.joinDate,
+          attendances: res.data.employee.attendances,
+          last30Days: res.data.last30Days,
+          last365Days: res.data.last365Days,
+          loading: false,
         }
         this.setState( newState );
-        this.setState( { loading: false } );
       }, 
       (err) => {
         alert('An error occured! Try refreshing the page.', err);
@@ -46,70 +48,96 @@ class EmployeeUpdateForm extends Component {
     );
   }
 
-  handleDatePickerChange(event){
-    this.setState({ joinDate: moment(event.target.value).format("YYYY-MM-DD") });
-  }
-  handleNameChange(event){
-    this.setState({ name: event.target.value });
-  }
-  handleDepartmentChange(event){
-    this.setState({ department: event.target.value });
-  }
-  handleOriginChange(event){
-    this.setState({ origin: event.target.value });
-  }
-
-  submitForm(){
-    var { _id, name, department, origin, joinDate } = this.state;
-    var employee = {
-      _id, name, department, origin, joinDate
-    };
-    axios.post('/api/employee/update', employee)
-    .then(
-      (res) => {
-        alert('Updated successfully!');
-      },
-      (err) => {
-        alert('An error occured! Try submitting the form again.', err);
-      }
-    );
-  }
   renderForm(){
+    var legends = {
+      "Present": <div padding="2" className="legends-inline bg-success">present</div>,         
+      "Sick": <div padding="2" className="legends-inline bg-warning">sick</div>,
+      "Vacation": <div padding="2" className="legends-inline bg-info">vacation</div>,
+      "Absent": <div padding="2" className="legends-inline bg-danger">absent</div>
+    };
+    var { name, department, origin, joinDate, attendances } = this.state;
     if(!this.state.loading){
       return (
-        <div className="form-container">
-          <div className="form">
-            Name <br/>
-            <TextBox 
-              value={this.state.name}
-              onChange={this.handleNameChange}
-              placeholder="Ex: Budi Budianto Budiantoro, etc"/> <br/>
-            
-            Unit <br/>
-            <TextBox
-              value={this.state.department}
-              onChange={this.handleDepartmentChange}
-              placeholder="Ex: Technology, Product, Marketing, etc"/> <br/>
-            
-            Origin <br/>
-            <TextBox 
-              value={this.state.origin}
-              onChange={this.handleOriginChange} 
-              placeholder="Ex: Jakarta, Pekanbaru, Medan, etc"/> <br/>
+        <div className="Detail-container">
+          <div className="Detail-card-row">
+            <div className="heading">
+              {name}
+            </div>
+          </div>
+          <div className="Detail-card">
+            <div className="Detail-card-row">
+              {department} department
+            </div>
+            <div className="Detail-card-row">
+              Joined on {moment(joinDate).format("Do MMMM YYYY")}
+            </div>
+            <div className="Detail-card-row">
+              From {origin}
+            </div>
+          </div>
 
-            <div className="date-picker-container">
-              Joined on
-              <DatePicker
-                className="flex"
-                value={this.state.joinDate}
-                placeholderText="Click to select a date" 
-                onChange={this.handleDatePickerChange} />
+          <div className="Detail-card">
+            <div className="Detail-card-row justify-center">
+              Today status: {legends[attendances[this.state.today]]} 
             </div>
 
-            <br/>
+            <div className="Detail-card-separator"/>
 
-            <Button onClick={this.submitForm} className="btn btn-success">Save changes</Button>
+            <div className="Detail-card-row">
+              Last 30 days
+            </div>
+            <div className="Detail-card-row">
+              <div className="Detail-card-col align-center">
+                <div className="legends fill-width bg-success">{this.state.last30Days.Present}</div>
+              </div>
+              <div className="Detail-card-col align-center">
+                <div className="legends fill-width bg-warning">{this.state.last30Days.Sick}</div>
+              </div>
+              <div className="Detail-card-col align-center">
+                <div className="legends fill-width bg-info">{this.state.last30Days.Vacation}</div>
+              </div>
+              <div className="Detail-card-col align-center">
+                <div className="legends fill-width bg-danger">{this.state.last30Days.Absent}</div>
+              </div>
+            </div>
+            
+            <div className="Detail-card-separator"/>
 
+            <div className="Detail-card-row">
+              Last 365 days
+            </div>
+            <div className="Detail-card-row">
+              <div className="Detail-card-col align-center">
+                <div className="legends fill-width bg-success">{this.state.last365Days.Present}</div>
+              </div>
+              <div className="Detail-card-col align-center">
+                <div className="legends fill-width bg-warning">{this.state.last365Days.Sick}</div>
+              </div>
+              <div className="Detail-card-col align-center">
+                <div className="legends fill-width bg-info">{this.state.last365Days.Vacation}</div>
+              </div>
+              <div className="Detail-card-col align-center">
+                <div className="legends fill-width bg-danger">{this.state.last365Days.Absent}</div>
+              </div>
+            </div>
+            
+            <div className="Detail-card-separator"/>
+
+            <div className="Detail-card-row font-small">
+              <div className="Detail-card-col align-center">
+                <div className="legends fill-width bg-success">Present</div>
+              </div>
+              <div className="Detail-card-col align-center">
+                <div className="legends fill-width bg-warning">Sick</div>
+              </div>
+              <div className="Detail-card-col align-center">
+                <div className="legends fill-width bg-info">Vacation</div>
+              </div>
+              <div className="Detail-card-col align-center">
+                <div className="legends fill-width bg-danger">Absent</div>
+              </div>
+            </div>
+            
           </div>
 
         </div>
@@ -120,7 +148,7 @@ class EmployeeUpdateForm extends Component {
     return (
       <div className="container">
         <div className="heading">
-          Update employee information
+          {/* Employee's detail */}
         </div>
         <div className="loader-container">
           <PacmanLoader
@@ -134,4 +162,4 @@ class EmployeeUpdateForm extends Component {
   }
 }
 
-export default EmployeeUpdateForm;
+export default EmployeeDetail;
