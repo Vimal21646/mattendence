@@ -15,7 +15,7 @@
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  overflow: scroll;
+  /* overflow: scroll; */
 }
 .content {
   display: flex;
@@ -102,12 +102,21 @@ tr {
     width: 60%;
   }
 }
+@media only screen and (min-width: 430px) {  
+  .content {
+    padding: 8px 8px 8px 8px;
+    align-self: stretch;
+  }
+}
 @media only screen and (max-width: 600px) {  
   .attendance-table tr :nth-child(3),
   .attendance-table tr :nth-child(4),
   .attendance-table tr :nth-child(5),
   .attendance-table tr :nth-child(6) {
     display: none;
+  }
+  .content {
+    font-size: 14px;
   }
 }
 /* tr:nth-child(even) {

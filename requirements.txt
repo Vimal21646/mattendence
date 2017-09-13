@@ -7,6 +7,7 @@ pre-2: scrap tokopedia nakamas! (DONE!)
 
 NEXT:
 
+5. Employee profile page, to see graph of past month and past year
 
 5. Page to see employee's attendance for a week
 6. Page to see employee's attendance for a month
