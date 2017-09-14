@@ -31,5 +31,6 @@ Because the project has a 3 days deadline, I only included some main features.
 - react-highcharts
 - react-spinners
 - react-router-dom
+- react-datepicker (because firefox doesn't support HTML5 date inputs)
 
 Built with React + <3
