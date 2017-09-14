@@ -117,6 +117,9 @@ app.get('/api/employee/detail/:id', (req, res) => {
       res.send(err);
     } else {
       var data = {};
+      var today = new Date();
+      var currentMonth = moment(today).format("MMM");
+      var currentYear = moment(today).format("YYYY");
       data.employee = employee;
       data.last30Days = {
         "Present": 0, "Sick": 0, "Vacation": 0, "Absent": 0
@@ -125,29 +128,61 @@ app.get('/api/employee/detail/:id', (req, res) => {
         "Present": 0, "Sick": 0, "Vacation": 0, "Absent": 0
       };
       
-      var today = new Date();
+      var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+      data.last12Months = [];
+      data.last12MonthsData = { 
+        Present: [0,0,0,0,0,0,0,0,0,0,0,0], 
+        Sick: [0,0,0,0,0,0,0,0,0,0,0,0], 
+        Vacation: [0,0,0,0,0,0,0,0,0,0,0,0], 
+        Absent: [0,0,0,0,0,0,0,0,0,0,0,0]
+      }; 
+      var startingMonth = today.getMonth();
+      var currMonth = startingMonth;
+      for(var i = 0; i < 12; i++){
+        var temp = currMonth;
+        if(temp < 0) temp += 12;
+        data.last12Months.push(months[temp]);
+        currMonth--;
+      }
+      data.last12Months.reverse();
       var count = 0;
       if(!employee.attendances){
         // kalau employee belum ada record attendance, anggap semua absen
         data.last30Days.Absent = 30;
         data.last365Days.Absent = 365;
+        data.last12MonthsData.Absent = [365,365,365,365,365,365,365,365,365,365,365,365];
       } else {
         // jika uda ada, maka kita perlu hitung satu satu
         while(count < 365){
           var checkedDate = moment(today).subtract(count, "days").format("YYYY-MM-DD");
+          var checkedMonth = moment(checkedDate).format("MMM");
+          var checkedMonthIndex = data.last12Months.indexOf(moment(checkedDate).format("MMM"));
+          var checkedYear = moment(checkedDate).format("YYYY");
+
           if(!employee.attendances[checkedDate]){
             // jika tidak ada, berarti absent
             if(count < 30) data.last30Days.Absent++;
             data.last365Days.Absent++;
+
+            
+            if(currentMonth === checkedMonth){
+              if(currentYear === checkedYear){
+                data.last12MonthsData.Absent[checkedMonthIndex]++;
+              }
+            } else {
+              data.last12MonthsData.Absent[checkedMonthIndex]++;
+            }
           } else {
             // jika ada, cek apa itu
             var status = employee.attendances[checkedDate];
-            if(count < 31) data.last30Days[status]++;
+            if(count < 30) data.last30Days[status]++;
             data.last365Days[status]++;
+            data.last12MonthsData[status][checkedMonthIndex]++;
           }
           count++;
         }
       }
+      // console.log(data);
       res.json(data);
     }
   });

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-// import DatePicker from 'react-datepicker';
+import ReactHighcharts from 'react-highcharts';
 import axios from 'axios';
 import moment from 'moment';
 import { BarLoader } from 'react-spinners';
@@ -9,6 +9,7 @@ import './index.css';
 class EmployeeDetail extends Component {
   constructor(props){
     super(props);
+
     this.state = {
       _id: this.props.match.params._id,
       name: "",
@@ -19,14 +20,52 @@ class EmployeeDetail extends Component {
       last365Days: {},
       loading: true,
       joinDate: moment(new Date()).format("YYYY-MM-DD"),
-      today: moment(new Date()).format("YYYY-MM-DD")
+      today: moment(new Date()).format("YYYY-MM-DD"),
+      chartsConfig: {}
     };
+
+    
   }
 
   componentWillMount(){
     axios.get("/api/employee/detail/"+this.state._id)
     .then(
       (res) => {    
+        var chartsConfig = {
+          title: {
+            text: "Over the last 12 months"
+          },
+          xAxis: {
+            categories: res.data.last12Months
+          },
+          yAxis: {
+            title: { 
+              text: "Number of days"
+            }
+          },
+          series: [
+            {
+              name: "Present",
+              data: res.data.last12MonthsData.Present,
+              color: '#44aa33'
+            },
+            {
+              name: "Sick",
+              data: res.data.last12MonthsData.Sick,
+              color: '#ddaa00'
+            },
+            {
+              name: "Vacation",
+              data: res.data.last12MonthsData.Vacation,
+              color: '#0077ff'
+            },
+            {
+              name: "Absent",
+              data: res.data.last12MonthsData.Absent,
+              color: '#ff3c3c'
+            },
+          ],
+        };
         var newState = {
           name: res.data.employee.name,
           department: res.data.employee.department,
@@ -36,6 +75,7 @@ class EmployeeDetail extends Component {
           last30Days: res.data.last30Days,
           last365Days: res.data.last365Days,
           loading: false,
+          chartsConfig: chartsConfig
         }
         this.setState( newState );
       }, 
@@ -135,6 +175,13 @@ class EmployeeDetail extends Component {
               </div>
             </div>
             
+          </div>
+          <div className="Detail-card">
+            <div className="Detail-card-row">
+              <div className="Detail-card-row-content">
+                <ReactHighcharts config={this.state.chartsConfig} />
+              </div>
+            </div>
           </div>
 
         </div>

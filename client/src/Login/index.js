@@ -43,7 +43,8 @@ class Login extends Component {
               <ul className="Login-card-list">
                 <li>CRUD operations on employees data </li>
                 <li>Marking employee as {legends.Present}, {legends.Sick}, {legends.Vacation}, or {legends.Absent}</li>
-                <li>Checking employee records for the past 30 and 365 days </li>
+                <li>Shows employee statistics for the past 30 and 365 days </li>
+                <li>Displays a graph of employee stats for the past 12 months </li>
                 <li>Fully responsive design to fit every screen-size (try rotating your device!) </li>
                 <li>Backed by ExpressJS and MongoDB (hosted on mLab) </li>
                 <li>Employees data scrapped from Tokopedia team page (the Nakamas!) </li>

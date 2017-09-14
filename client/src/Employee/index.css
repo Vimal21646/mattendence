@@ -65,6 +65,10 @@
   align-items: center;
   padding-bottom: 4px;
 }
+.Detail-card-row-content{
+  width: 100%;
+  flex: 1;
+}
 .font-small{
   font-size: 12px;
 }
