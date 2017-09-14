@@ -5,7 +5,8 @@ import axios from 'axios';
 import { BarLoader } from 'react-spinners';
 import moment from 'moment';
 
-import Button from './../../../common/Button/index.js';
+import Button from './../../../common/Button/';
+import DatePicker from './../../../common/DatePicker';
 import TextBox from './../../../common/TextBox';
 import './index.css';
 
@@ -22,10 +23,12 @@ class HomeTable extends Component {
       shownCount: 0,
       totalCount: 0,
       loading: true,
-      today: moment(new Date()).format("YYYY-MM-DD")
+      today: moment(new Date()).format("YYYY-MM-DD"),
+      dateOffset: 0
     };
 
     this.onFilterChange = this.onFilterChange.bind(this);
+    this.handleDatePickerChange = this.handleDatePickerChange.bind(this);
   }
 
   componentWillMount(){
@@ -66,6 +69,17 @@ class HomeTable extends Component {
     if(currentPage <= this.state.totalPage){
       this.setState( { currentPage: currentPage });
     }
+  }
+  
+  addDateOffset(value){
+    this.setState( { dateOffset: this.state.dateOffset + value });
+  }
+
+  handleDatePickerChange(event){
+    var newDate = moment(event.target.value).format("YYYY-MM-DD");
+    var oldDate = moment(this.state.today).format("YYYY-MM-DD");
+    var diffInDays = moment(newDate).diff(moment(oldDate), 'days');
+    this.setState( { dateOffset: diffInDays });
   }
 
   markTodayEmployee(index, label){
@@ -117,13 +131,13 @@ class HomeTable extends Component {
       if(row.name.toLowerCase().indexOf(this.state.nameFilter) > -1){
         var attd = row.attendances || {};
         var dates = [];
-        dates.push(moment(this.state.today).subtract(6, 'days').format("YYYY-MM-DD"));
-        dates.push(moment(this.state.today).subtract(5, 'days').format("YYYY-MM-DD"));
-        dates.push(moment(this.state.today).subtract(4, 'days').format("YYYY-MM-DD"));
-        dates.push(moment(this.state.today).subtract(3, 'days').format("YYYY-MM-DD"));
-        dates.push(moment(this.state.today).subtract(2, 'days').format("YYYY-MM-DD"));
-        dates.push(moment(this.state.today).subtract(1, 'days').format("YYYY-MM-DD"));
-        dates.push(moment(this.state.today).subtract(0, 'days').format("YYYY-MM-DD"));
+        dates.push(moment(this.state.today).subtract(6 - this.state.dateOffset, 'days').format("YYYY-MM-DD"));
+        dates.push(moment(this.state.today).subtract(5 - this.state.dateOffset, 'days').format("YYYY-MM-DD"));
+        dates.push(moment(this.state.today).subtract(4 - this.state.dateOffset, 'days').format("YYYY-MM-DD"));
+        dates.push(moment(this.state.today).subtract(3 - this.state.dateOffset, 'days').format("YYYY-MM-DD"));
+        dates.push(moment(this.state.today).subtract(2 - this.state.dateOffset, 'days').format("YYYY-MM-DD"));
+        dates.push(moment(this.state.today).subtract(1 - this.state.dateOffset, 'days').format("YYYY-MM-DD"));
+        dates.push(moment(this.state.today).subtract(0 - this.state.dateOffset, 'days').format("YYYY-MM-DD"));
         return (
           <tr key={"employeeData"+i}>
             <td>{i+1}</td>
@@ -269,18 +283,40 @@ class HomeTable extends Component {
               {(this.state.currentPage < filteredTotalPage) ? buttonIncrease : ""}
             </div>
           </div>
+
+          <div className="table-controls justify-center align-stretch">
+            <div>
+              <Button className="btn" title="Go back 1 day"
+                onClick={() => this.addDateOffset(-1) }>
+                &lt;
+              </Button>
+            </div>
+            <div>
+              <DatePicker
+                value={moment(this.state.today).subtract(-this.state.dateOffset, 'days').format("YYYY-MM-DD")}
+                placeholderText="Click to select a date" 
+                onChange={this.handleDatePickerChange} />
+            </div>
+            <div>
+              <Button className="btn" title="Go forward 1 day"
+                onClick={() => this.addDateOffset(1) }>
+                &gt;
+              </Button>
+            </div>
+          </div>
+
           <table className="attendance-table">
             <tbody>
             <tr>
               <th>No</th>
               <th>Name</th>
-              <th>{moment(this.state.today).subtract(6, 'days').format("ddd, Do MMM")}</th>
-              <th>{moment(this.state.today).subtract(5, 'days').format("ddd, Do MMM")}</th>
-              <th>{moment(this.state.today).subtract(4, 'days').format("ddd, Do MMM")}</th>
-              <th>{moment(this.state.today).subtract(3, 'days').format("ddd, Do MMM")}</th>
-              <th>{moment(this.state.today).subtract(2, 'days').format("ddd, Do MMM")}</th>
-              <th>{moment(this.state.today).subtract(1, 'days').format("ddd, Do MMM")}</th>
-              <th>{moment(this.state.today).subtract(0, 'days').format("ddd, Do MMM")}</th>
+              <th>{moment(this.state.today).subtract(6 - this.state.dateOffset, 'days').format("ddd, Do MMM")}</th>
+              <th>{moment(this.state.today).subtract(5 - this.state.dateOffset, 'days').format("ddd, Do MMM")}</th>
+              <th>{moment(this.state.today).subtract(4 - this.state.dateOffset, 'days').format("ddd, Do MMM")}</th>
+              <th>{moment(this.state.today).subtract(3 - this.state.dateOffset, 'days').format("ddd, Do MMM")}</th>
+              <th>{moment(this.state.today).subtract(2 - this.state.dateOffset, 'days').format("ddd, Do MMM")}</th>
+              <th>{moment(this.state.today).subtract(1 - this.state.dateOffset, 'days').format("ddd, Do MMM")}</th>
+              <th>{moment(this.state.today).subtract(0 - this.state.dateOffset, 'days').format("ddd, Do MMM")}</th>
               <th>Mark today as</th>
             </tr>
             { filtered }

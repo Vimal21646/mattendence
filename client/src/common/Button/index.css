@@ -1,4 +1,7 @@
 .btn {
+  border: none;
+  font-size: 14px;
+  font-family: 'Raleway', sans-serif;
   display: inline-block;
   text-align: center;
   padding: 4px 8px 4px 8px;
@@ -7,7 +10,7 @@
   color: white;
   border-radius: 4px;
   cursor: pointer;
-  transition: .3s;
+  transition: .2s;
 }
 
 .btn:hover {
@@ -40,4 +43,10 @@
 .btn-success {
   background: #44aa33;
   color: white;
+}
+
+@media only screen and (min-width: 600px) {  
+  .btn {
+    font-size: 16px;
+  }
 }
