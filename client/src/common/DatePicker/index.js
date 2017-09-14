@@ -18,6 +18,7 @@ class DatePicker extends Component {
           className={this.props.className + " myInput"} 
           selected={moment(this.props.value)}
           onChange={this.props.onChange} 
+          readOnly={true}
         />
     );
   }
