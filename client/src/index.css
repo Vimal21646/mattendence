@@ -14,7 +14,7 @@ body {
   margin: 0;
   padding: 0;
   font-family: "Raleway", sans-serif;
-  overflow: scroll;
+  /* overflow: scroll; */
   background-color: #fcfcfc;
 }
 /* table, .form, .Detail-card, .Login-card {

@@ -20,7 +20,7 @@
   display: flex;
   width: 100%;
   flex: 1;
-  overflow: scroll;
+  /* overflow: scroll; */
   flex-direction: row;
   justify-content: center;
   align-items: flex-start;
@@ -32,7 +32,7 @@
   display: flex;
   width: 100%;
   flex: 1;
-  overflow: scroll;
+  /* overflow: scroll; */
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
