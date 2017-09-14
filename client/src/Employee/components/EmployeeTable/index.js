@@ -176,7 +176,7 @@ class EmployeeTable extends Component {
       if(filtered.length > this.state.limitPage){
         lowerBound = (this.state.currentPage-1) * this.state.limitPage;
         upperBound = (this.state.currentPage) * this.state.limitPage;
-        console.log("getting from index", lowerBound, "to", lowerBound+this.state.limitPage);
+        // console.log("getting from index", lowerBound, "to", lowerBound+this.state.limitPage);
         filtered = filtered.slice(lowerBound, upperBound);
       }
       filteredTotalPage = Math.ceil(totalCount / this.state.limitPage)

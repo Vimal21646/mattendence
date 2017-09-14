@@ -3,9 +3,6 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import moment from 'moment';
 import { BarLoader } from 'react-spinners';
-import DatePicker from './../common/DatePicker';
-import Button from './../common/Button';
-import TextBox from './../common/TextBox';
 
 import './index.css';
 

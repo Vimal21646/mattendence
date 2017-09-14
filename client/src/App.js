@@ -39,7 +39,7 @@ class App extends Component {
               onClick={() => this.handleNavigationChange(1)}
           >
             <Link to={`/`}>
-              Landing
+              Welcome
             </Link>
           </div>
           <div
