@@ -24,8 +24,8 @@ class EmployeeInsertForm extends Component {
     this.submitForm = this.submitForm.bind(this); 
   }
 
-  handleDatePickerChange(event){
-    this.setState({ joinDate: moment(event.target.value).format("YYYY-MM-DD") });
+  handleDatePickerChange(date){
+    this.setState({ joinDate: moment(date).format("YYYY-MM-DD") });
   }
   handleNameChange(event){
     this.setState({ name: event.target.value });

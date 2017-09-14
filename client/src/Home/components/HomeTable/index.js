@@ -75,8 +75,8 @@ class HomeTable extends Component {
     this.setState( { dateOffset: this.state.dateOffset + value });
   }
 
-  handleDatePickerChange(event){
-    var newDate = moment(event.target.value).format("YYYY-MM-DD");
+  handleDatePickerChange(date){
+    var newDate = moment(date).format("YYYY-MM-DD");
     var oldDate = moment(this.state.today).format("YYYY-MM-DD");
     var diffInDays = moment(newDate).diff(moment(oldDate), 'days');
     this.setState( { dateOffset: diffInDays });
