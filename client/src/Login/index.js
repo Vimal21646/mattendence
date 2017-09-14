@@ -28,7 +28,7 @@ class Login extends Component {
               <ul className="Login-card-list">
                 <li>There are no logins as of now, just use the app right away!</li>
                 <li>The app currently does not log check-in and check-out time</li> 
-                <li>The codebase has A LOT of refactoring to do</li> 
+                <li>The codebase probably needs to be refactored</li> 
               </ul>
               Because the project has a 3 days deadline, I only included some main features.
             </div>
